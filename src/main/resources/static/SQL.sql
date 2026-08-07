@@ -183,3 +183,5 @@ CREATE TABLE Mensajes (
 
 INSERT INTO Mensajes (IdCliente, TextoMensaje, FechaEnvio, Estado) VALUES
 (1, 'Consulta sobre stock disponible', '2026-06-15 10:30:00', '1');
+
+ALTER TABLE Juegos ADD COLUMN activo BOOLEAN NOT NULL DEFAULT TRUE;

@@ -20,5 +20,6 @@ public class Juegos {
     private String descripcion;
     private Double precio;
     private String imagen;
+    private Boolean activo;
 
 }
