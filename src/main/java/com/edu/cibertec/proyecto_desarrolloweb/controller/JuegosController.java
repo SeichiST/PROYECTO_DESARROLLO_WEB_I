@@ -34,7 +34,7 @@ public class JuegosController {
     }
     //localhost:8085/api/v1/juego
     @PostMapping
-    public ResponseEntity<Map<String, String>> createjuego(
+    public ResponseEntity<Map<String, String>> createJuego(
             @RequestBody JuegosDto dto){
         Map<String, String> response = new HashMap<>();
         try{
@@ -50,7 +50,7 @@ public class JuegosController {
     }
     //[PATCH] = localhost:8085/api/v1/juego/78
     @PatchMapping("/{id}")
-    public ResponseEntity<Map<String, String>> actualizarjuego(
+    public ResponseEntity<Map<String, String>> actualizarJuego(
             @PathVariable Integer id,
             @RequestBody JuegosDto dto){
         Map<String, String> response = new HashMap<>();
