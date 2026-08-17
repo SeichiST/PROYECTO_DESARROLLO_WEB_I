@@ -23,12 +23,11 @@ public class ClienteService {
         this.rolesRepository = rolesRepository;
     }
 
-    // Listar todos los clientes activos (estado = '1')
     public List<Clientes> listarClientes() {
         return clientesRepository.findByEstado("1");
     }
 
-    // Buscar un cliente por ID y devolverlo como DTO
+
     public ClientesDto buscarPorId(Integer id) {
         Clientes cliente = clientesRepository.findById(id).orElse(null);
         if (cliente == null) {
@@ -47,7 +46,7 @@ public class ClienteService {
         dto.setPassword(cliente.getPassword());
         dto.setEstado(cliente.getEstado());
 
-        // Extraer los IDs de los roles
+
         Set<Integer> roleIds = cliente.getRoles().stream()
                 .map(Roles::getIdrol)
                 .collect(Collectors.toSet());
@@ -56,9 +55,9 @@ public class ClienteService {
         return dto;
     }
 
-    // Guardar un nuevo cliente (alta)
+
     public void guardarCliente(ClientesDto dto) {
-        // Obtener las entidades de roles a partir de los IDs
+
         Set<Roles> roles = dto.getRoleIds().stream()
                 .map(rolesRepository::findById)
                 .filter(opt -> opt.isPresent())
@@ -81,9 +80,9 @@ public class ClienteService {
         clientesRepository.save(cliente);
     }
 
-    // Actualizar un cliente existente
+
     public void actualizarCliente(ClientesDto dto) {
-        // 1. Actualizar los campos básicos con la consulta nativa
+
         clientesRepository.updateCliente(
                 dto.getNombres(),
                 dto.getApellidos(),
@@ -98,7 +97,7 @@ public class ClienteService {
                 dto.getIdcliente()
         );
 
-        // 2. Actualizar la relación muchos-a-muchos con roles
+
         Clientes cliente = clientesRepository.findById(dto.getIdcliente()).orElse(null);
         if (cliente != null && dto.getRoleIds() != null) {
             Set<Roles> nuevosRoles = dto.getRoleIds().stream()
@@ -109,11 +108,11 @@ public class ClienteService {
 
             cliente.getRoles().clear();
             cliente.getRoles().addAll(nuevosRoles);
-            clientesRepository.save(cliente);  // actualiza la tabla intermedia
+            clientesRepository.save(cliente);
         }
     }
 
-    // Eliminar lógicamente (desactivar)
+
     public void eliminarCliente(Integer id) {
         clientesRepository.deleteCliente(id);
     }
