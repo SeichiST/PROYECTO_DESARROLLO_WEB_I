@@ -35,15 +35,8 @@ public class SecurityConfig {
             http.cors(Customizer.withDefaults())
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth ->
-                            auth.requestMatchers("/auth/**", "/public/**", "/api/**").permitAll()
+                            auth.requestMatchers("/auth/**", "/public/**", "/api/**", "/uploads/**").permitAll()
                                     .anyRequest().authenticated()
-                    )
-                    .formLogin(login ->
-                            login.loginPage("/auth/login")
-                                    .defaultSuccessUrl("/home")
-                                    .usernameParameter("correo")
-                                    .passwordParameter("password")
-                                    .permitAll()
                     )
                     .logout(logout ->
                             logout.logoutUrl("/logout")
