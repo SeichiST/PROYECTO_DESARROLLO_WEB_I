@@ -5,8 +5,11 @@ import com.edu.cibertec.proyecto_desarrolloweb.model.Clientes;
 import com.edu.cibertec.proyecto_desarrolloweb.model.Roles;
 import com.edu.cibertec.proyecto_desarrolloweb.repository.ClientesRepository;
 import com.edu.cibertec.proyecto_desarrolloweb.repository.RolesRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,11 +19,14 @@ public class ClienteService {
 
     private final ClientesRepository clientesRepository;
     private final RolesRepository rolesRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public ClienteService(ClientesRepository clientesRepository,
-                           RolesRepository rolesRepository) {
+                          RolesRepository rolesRepository,
+                          PasswordEncoder passwordEncoder) {
         this.clientesRepository = clientesRepository;
         this.rolesRepository = rolesRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Clientes> listarClientes() {
@@ -58,6 +64,10 @@ public class ClienteService {
 
     public void guardarCliente(ClientesDto dto) {
 
+        if (dto.getRoleIds() == null || dto.getRoleIds().isEmpty()) {
+            dto.setRoleIds(new HashSet<>(Collections.singletonList(2)));
+        }
+
         Set<Roles> roles = dto.getRoleIds().stream()
                 .map(rolesRepository::findById)
                 .filter(opt -> opt.isPresent())
@@ -73,7 +83,7 @@ public class ClienteService {
         cliente.setFechanacimiento(dto.getFechanacimiento());
         cliente.setSexo(dto.getSexo());
         cliente.setCorreo(dto.getCorreo());
-        cliente.setPassword(dto.getPassword());
+        cliente.setPassword(passwordEncoder.encode(dto.getPassword()));
         cliente.setEstado(dto.getEstado() != null ? dto.getEstado() : "1");
         cliente.setRoles(roles);
 
@@ -82,6 +92,11 @@ public class ClienteService {
 
 
     public void actualizarCliente(ClientesDto dto) {
+
+        String contra = dto.getPassword();
+        if (contra != null && !contra.startsWith("$2a$")) {
+            contra = passwordEncoder.encode(contra);
+        }
 
         clientesRepository.updateCliente(
                 dto.getNombres(),
@@ -92,7 +107,7 @@ public class ClienteService {
                 dto.getFechanacimiento(),
                 dto.getSexo(),
                 dto.getCorreo(),
-                dto.getPassword(),
+                contra,
                 dto.getEstado(),
                 dto.getIdcliente()
         );
