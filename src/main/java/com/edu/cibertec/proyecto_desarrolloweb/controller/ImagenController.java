@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +41,7 @@ public class ImagenController {
             int siguienteNumero = obtenerSiguienteNumero(directorio);
 
 
-            String nombreArchivo = String.format("%04d%s", siguienteNumero, extension);
+            String nombreArchivo = String.format("%05d%s", siguienteNumero, extension);
 
             Path rutaCompleta = directorio.resolve(nombreArchivo);
             Files.copy(file.getInputStream(), rutaCompleta);
@@ -55,7 +54,7 @@ public class ImagenController {
         }
     }
     private int obtenerSiguienteNumero(Path directorio) throws IOException {
-        Pattern pattern = Pattern.compile("^(\\d{4})\\..+$");
+        Pattern pattern = Pattern.compile("^(\\d{5})\\..+$");
         int maxNumero = 0;
 
         try (var stream = Files.list(directorio)) {
