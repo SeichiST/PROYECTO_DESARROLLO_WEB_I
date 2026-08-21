@@ -1,6 +1,7 @@
 package com.edu.cibertec.proyecto_desarrolloweb.service;
 
 import com.edu.cibertec.proyecto_desarrolloweb.dto.DetalleVentaDto;
+import com.edu.cibertec.proyecto_desarrolloweb.dto.VentaDetalleResponseDto;
 import com.edu.cibertec.proyecto_desarrolloweb.dto.VentaDto;
 import com.edu.cibertec.proyecto_desarrolloweb.model.*;
 import com.edu.cibertec.proyecto_desarrolloweb.repository.ClientesRepository;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VentasService {
@@ -64,5 +67,38 @@ public class VentasService {
         }
 
         return ventaGuardada;
+    }
+
+    public List<Ventas> listarVentas() {
+        return ventasRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public VentaDetalleResponseDto obtenerVentaDetalle(Integer idVenta) {
+        Ventas venta = ventasRepository.findById(idVenta)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+
+        VentaDetalleResponseDto response = new VentaDetalleResponseDto();
+        response.setIdVenta(venta.getIdventa());
+        response.setIdCliente(venta.getCliente().getIdcliente());
+        response.setNombresCliente(venta.getCliente().getNombres());
+        response.setApellidosCliente(venta.getCliente().getApellidos());
+        response.setFechaVenta(venta.getFechaventa());
+        response.setMontoTotal(venta.getMontototal());
+        response.setEstado(venta.getEstado());
+
+        List<Detalle> detalles = detalleRepository.findByIdVenta(idVenta);
+        List<DetalleVentaDto> items = detalles.stream().map(det -> {
+            DetalleVentaDto dto = new DetalleVentaDto();
+            dto.setIdJuego(det.getJuego().getIdjuegos());
+            dto.setDescripcionJuego(det.getJuego().getDescripcion());
+            dto.setCantidad(det.getCantidad());
+            dto.setPrecio(det.getPrecio());
+            dto.setSubtotal(det.getPrecio() * det.getCantidad());
+            return dto;
+        }).collect(Collectors.toList());
+
+        response.setDetalles(items);
+        return response;
     }
 }

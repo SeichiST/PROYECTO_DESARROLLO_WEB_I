@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter @Setter
 public class DetalleVentaDto {
     private Integer idJuego;
+    private String descripcionJuego;
     private Integer cantidad;
     private Double precio;
+    private Double subtotal;
 }
