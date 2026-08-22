@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class MensajeDto {
     private Integer idmensaje;
+    private Integer idcliente;
     private LocalDateTime fechaenvio;
     private String nombres;
     private String correo;
