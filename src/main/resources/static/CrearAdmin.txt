@@ -1,0 +1,13 @@
+{
+  "nombres": "Admin",
+  "apellidos": "Nistrador",
+  "correo": "Admin@gmail.com",
+  "direccion": "Av. Principal 123",
+  "dni": "70054032",
+  "estado": "1",
+  "fechanacimiento": "2000-01-01",
+  "password": "12345",
+  "roleIds": [2],
+  "sexo": "M",
+  "telefono": "999999999"
+}

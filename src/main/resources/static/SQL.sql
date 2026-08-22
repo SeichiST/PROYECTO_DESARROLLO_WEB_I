@@ -123,7 +123,7 @@ CREATE TABLE Clientes (
 
 INSERT INTO Clientes (Apellidos, Nombres, DNI, Direccion, Telefono, FechaNacimiento, Sexo, Correo, Password, Estado) VALUES
 ('Gonzales', 'Marco Antonio', '45258695', 'Av. Los Olivos 123', '995587456', '1998-05-14', 'M', 'marco.g@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOUVGkqRzgVymGe07xd00DMxs.AQy2n9u', '1'),
-('Istrador', 'Admin', '56789423', 'Av. Admin 123', '956894369', '2026-01-01', 'F', 'admin@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOUVGkqRzgVymGe07xd00DMxs.AQy2n9u', '1');
+('Istrador', 'Admin', '56789423', 'Av. Admin 123', '956894369', '2026-01-01', 'F', 'adm@gmail.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOUVGkqRzgVymGe07xd00DMxs.AQy2n9u', '1');
 
 -- 5. Tabla Intermedia: Cliente_Roles
 DROP TABLE IF EXISTS Cliente_Roles;
