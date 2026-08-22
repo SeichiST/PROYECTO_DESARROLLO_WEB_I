@@ -65,7 +65,7 @@ public class ClienteService {
     public void guardarCliente(ClientesDto dto) {
 
         if (dto.getRoleIds() == null || dto.getRoleIds().isEmpty()) {
-            dto.setRoleIds(new HashSet<>(Collections.singletonList(2)));
+            dto.setRoleIds(new HashSet<>(Collections.singletonList(1)));
         }
 
         Set<Roles> roles = dto.getRoleIds().stream()
